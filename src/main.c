@@ -12,6 +12,12 @@ int world_map[9][18] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
 
+int	ft_error(char *str)
+{
+	printf("ERROR: %s\n", str);
+	return (1);
+}
+
 int	main(int ac, char **av)
 {
 	(void)av;
@@ -34,11 +40,14 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	if (check_extension(av[1]) < 0)
-		ft_error("file must finish by .cub");
+		return(ft_error("file must finish by .cub"));
 	param.fd = check_openable(av[1]);
 	if (param.fd < 0)
-		ft_error("file is not openable");
+		return(ft_error("file is not openable"));
 	init_param(&param);
+	if (check_texture(param) < 0)
+		return(ft_error("miss something in texture description\n
+		The format should be NO/SO/WE/EA/C/F follow by the texture's path\\n"));
 	//check each line and send information to param
 	//check the map
 	cast_rays_and_render(&param);
